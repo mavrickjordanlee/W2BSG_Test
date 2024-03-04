@@ -71,7 +71,7 @@ DATABASES = {
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
             'host': os.environ.get('MONGODB_HOST'),
-            'port': os.environ.get('MONGODB_PORT'),
+            'port': int(os.environ.get('MONGODB_PORT')),
             'username': os.environ.get('MONGODB_USERNAME'),
             'password': os.environ.get('MONGODB_PASSWORD'),
         },
