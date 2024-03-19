@@ -9,8 +9,8 @@ def update_game_data():
         { 'game_name': game_name },
         { '$set': { 'date': date, 'time': time} }
     )
-game_name = "Age of Empires IV: Anniversary Edition"
-date = "2021-10-28"
-time = "40"
+game_name = "Sea of Thieves"
+date = "2018-03-20"
+time = "16"
 update_game_data()
 print("Data updated successfully.")

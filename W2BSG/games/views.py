@@ -6,6 +6,7 @@ def get_all_latest_game_price():
     db = client['w2bsg_db']
     collection = db['game_list']
 
+    '''
     # Get distinct game names from the collection
     game_names = collection.distinct('game_name')
 
@@ -21,6 +22,24 @@ def get_all_latest_game_price():
             latest_trends[game_name] = latest_record
 
     return latest_trends
+    '''
+
+    # Retrieve all documents from the collection
+    all_records = collection.find()
+
+    games_data = {}
+
+    # Iterate over each document
+    for record in all_records:
+        # Convert ObjectId to string
+        record['_id'] = str(record['_id'])
+        game_name = record['game_name']
+        # Add to the dictionary using game name as key
+        if game_name not in games_data:
+            games_data[game_name] = []
+        games_data[game_name].append(record)
+
+    return games_data
 
 
 def games_list(request):
