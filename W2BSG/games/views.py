@@ -4,7 +4,7 @@ import pymongo
 def get_all_latest_game_price():
     client = pymongo.MongoClient('mongodb+srv://w2b_admin:w2b_admin@w2bsg.dnmytqb.mongodb.net/?retryWrites=true&w=majority&appName=W2BSG')
     db = client['w2bsg_db']
-    collection = db['games']
+    collection = db['game_list']
 
     # Get distinct game names from the collection
     game_names = collection.distinct('game_name')
@@ -21,6 +21,7 @@ def get_all_latest_game_price():
             latest_trends[game_name] = latest_record
 
     return latest_trends
+
 
 def games_list(request):
    latest_price_trends = get_all_latest_game_price()
