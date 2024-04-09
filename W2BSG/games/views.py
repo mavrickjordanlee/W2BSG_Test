@@ -1,32 +1,35 @@
 from django.http import JsonResponse
 import pymongo
 
-def get_all_latest_game_price():
+def get_all_games():
     client = pymongo.MongoClient('mongodb+srv://w2b_admin:w2b_admin@w2bsg.dnmytqb.mongodb.net/?retryWrites=true&w=majority&appName=W2BSG')
     db = client['w2bsg_db']
     collection = db['game_list']
 
-    # Get distinct game names from the collection
-    game_names = collection.distinct('game_name')
+    games_list = {}
 
-    latest_trends = {}
+    for game_record in collection.find():
+        game_name = game_record['game_name']
+        game_record['_id'] = str(game_record['_id'])
+        games_list[game_name] = game_record
 
-    for game_name in game_names:
-        # Find the latest record for the specified game
-        latest_record = collection.find_one({'game_name': game_name}, sort=[('date', pymongo.DESCENDING)])
-
-        if latest_record:
-        # Convert ObjectId to string
-            latest_record['_id'] = str(latest_record['_id'])
-            latest_trends[game_name] = latest_record
-
-    return latest_trends
+    return games_list
 
 def games_list(request):
-   latest_price_trends = get_all_latest_game_price()
+   latest_price_trends = get_all_games()
    if latest_price_trends:
         return JsonResponse(latest_price_trends)
    else:
         return JsonResponse({'error': 'No data found for any game'}, status=404)
 
+def search_game(request, game_name):
+        latest_price_trends = get_all_games()
+        if latest_price_trends:
+            game_info = latest_price_trends.get(game_name)
+            if game_info:
+                return JsonResponse(game_info)
+            else:
+                return JsonResponse({'error': f'Game "{game_name}" not found'}, status=404)
+        else:
+            return JsonResponse({'error': 'No data found for any game'}, status=404)
 

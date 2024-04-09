@@ -4,5 +4,5 @@ from login import views
 urlpatterns = [
     path('register', views.register_user),
     path('login', views.login),
-    path('games', include('games.urls'))
+    path('games/', include('games.urls'))
 ]
