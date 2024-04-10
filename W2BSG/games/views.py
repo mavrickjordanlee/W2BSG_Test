@@ -23,13 +23,13 @@ def games_list(request):
         return JsonResponse({'error': 'No data found for any game'}, status=404)
 
 def search_game(request, game_name):
-        latest_price_trends = get_all_games()
-        if latest_price_trends:
-            game_info = latest_price_trends.get(game_name)
-            if game_info:
-                return JsonResponse(game_info)
-            else:
-                return JsonResponse({'error': f'Game "{game_name}" not found'}, status=404)
+    latest_price_trends = get_all_games()
+    if latest_price_trends:
+        game_info = latest_price_trends.get(game_name)
+        if game_info:
+            return JsonResponse(game_info)
         else:
-            return JsonResponse({'error': 'No data found for any game'}, status=404)
+            return JsonResponse({}, status=404)
+    else:
+        return JsonResponse({'error': 'No data found for any game'}, status=404)
 
